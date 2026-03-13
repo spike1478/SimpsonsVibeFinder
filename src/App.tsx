@@ -11,6 +11,7 @@ import { scoreEpisodes, getTopRecommendations } from './recommender/score';
 import { findSimilarEpisodes } from './recommender/similarity';
 import { extractFeatures } from './recommender/featureExtract';
 import { shouldIncludeEpisode } from './recommender/filters';
+import type { PlexEpisodeMap } from './api/plex';
 import type { Episode, QuizAnswers, Filters as FiltersType, ScoredEpisode } from './types';
 
 function App() {
@@ -31,8 +32,8 @@ function App() {
   });
   const [selectedEpisode, setSelectedEpisode] = useState<Episode | null>(null);
   const [results, setResults] = useState<ScoredEpisode[]>([]);
-  const [plexBaseUrl, setPlexBaseUrl] = useState('https://app.plex.tv/desktop');
-  const [plexAuthToken, setPlexAuthToken] = useState('');
+  const [plexEpisodeMap, setPlexEpisodeMap] = useState<PlexEpisodeMap | null>(null);
+  const [plexMachineId, setPlexMachineId] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadEpisodes() {
@@ -230,18 +231,22 @@ function App() {
             </div>
 
             {results.length > 0 && (
-              <Results 
-                results={results} 
-                plexBaseUrl={plexBaseUrl || undefined}
-                plexAuthToken={plexAuthToken || undefined}
+              <Results
+                results={results}
+                plexEpisodeMap={plexEpisodeMap}
+                plexMachineId={plexMachineId}
               />
             )}
 
             <PlexSettings
-              plexBaseUrl={plexBaseUrl}
-              plexAuthToken={plexAuthToken}
-              onPlexUrlChange={setPlexBaseUrl}
-              onPlexAuthTokenChange={setPlexAuthToken}
+              onSignedIn={(_token, map, machineId) => {
+                setPlexEpisodeMap(map);
+                setPlexMachineId(machineId);
+              }}
+              onSignedOut={() => {
+                setPlexEpisodeMap(null);
+                setPlexMachineId(null);
+              }}
             />
           </>
         )}

@@ -1,22 +1,22 @@
 import React from 'react';
 import type { ScoredEpisode } from '../types';
+import type { PlexEpisodeMap } from '../api/plex';
 import { EpisodeCard } from './EpisodeCard';
 
 interface ResultsProps {
   results: ScoredEpisode[];
-  plexBaseUrl?: string;
-  plexAuthToken?: string;
+  plexEpisodeMap?: PlexEpisodeMap | null;
+  plexMachineId?: string | null;
 }
 
-export const Results: React.FC<ResultsProps> = ({ results, plexBaseUrl, plexAuthToken }) => {
-  // Check for empty result (special case for surprise me with no matches)
+export const Results: React.FC<ResultsProps> = ({ results, plexEpisodeMap, plexMachineId }) => {
   const isEmptyResult = results.length === 1 && results[0].episode.id === -1;
-  
+
   if (results.length === 0 || isEmptyResult) {
     return (
       <div className="results-container" role="region" aria-live="polite">
         <p className="no-results">
-          {isEmptyResult 
+          {isEmptyResult
             ? 'No episodes match your current filters. Try relaxing them to get a surprise recommendation.'
             : 'No episodes match your criteria. Try adjusting filters.'}
         </p>
@@ -33,12 +33,11 @@ export const Results: React.FC<ResultsProps> = ({ results, plexBaseUrl, plexAuth
             key={result.episode.id}
             episode={result}
             rank={index + 1}
-            plexBaseUrl={plexBaseUrl}
-            plexAuthToken={plexAuthToken}
+            plexEpisodeMap={plexEpisodeMap}
+            plexMachineId={plexMachineId}
           />
         ))}
       </div>
     </div>
   );
 };
-

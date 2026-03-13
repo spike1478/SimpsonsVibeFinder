@@ -29,19 +29,20 @@
   --outline-light: #555;
 
   /* Semantic tokens */
-  --bg-primary: var(--cloud-white);
+  --bg-primary: #F5F7FA;
   --bg-card: #FFFFFF;
   --bg-header: var(--simpsons-yellow);
-  --text-primary: var(--outline);
-  --text-secondary: #555;
+  --text-primary: #1a1a2e;
+  --text-secondary: #6B7280;
   --accent: var(--sky-blue);
   --accent-dark: var(--sky-blue-dark);
-  --border: var(--outline);
-  --border-width: 2.5px;
-  --radius: 12px;
-  --radius-sm: 8px;
-  --shadow: 3px 3px 0 rgba(0, 0, 0, 0.15);
-  --shadow-hover: 4px 4px 0 rgba(0, 0, 0, 0.2);
+  --border: #D1D5DB;
+  --border-strong: var(--outline);
+  --border-width: 1.5px;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
 
   /* Typography */
   --font-display: 'Fredoka', 'Comic Sans MS', cursive, sans-serif;
@@ -72,6 +73,12 @@
   }
 }
 
+/* Selection */
+::selection {
+  background: var(--simpsons-yellow);
+  color: #1a1a2e;
+}
+
 /* Base */
 body {
   font-family: var(--font-body);
@@ -90,8 +97,8 @@ body {
 
 /* ============ Header ============ */
 .app-header {
-  background: var(--bg-header);
-  padding: 2rem 1rem 1.5rem;
+  background: linear-gradient(180deg, var(--sky-blue) 0%, var(--sky-blue-light) 100%);
+  padding: 2rem 1rem 1.75rem;
   text-align: center;
   border-bottom: var(--border-width) solid var(--outline);
   position: relative;
@@ -103,31 +110,31 @@ body {
 .app-header::after {
   content: '';
   position: absolute;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.5);
   border-radius: 50%;
 }
 
 .app-header::before {
-  width: 120px;
-  height: 40px;
-  top: 12px;
-  left: 8%;
+  width: 160px;
+  height: 50px;
+  top: 10px;
+  left: 5%;
 }
 
 .app-header::after {
-  width: 90px;
-  height: 30px;
-  top: 20px;
-  right: 12%;
+  width: 120px;
+  height: 40px;
+  top: 18px;
+  right: 8%;
 }
 
 .header-content {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  margin-bottom: 0.25rem;
-  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
   position: relative;
   z-index: 1;
 }
@@ -139,29 +146,28 @@ body {
 }
 
 .simpsons-logo {
-  height: 45px;
+  height: 72px;
   width: auto;
-  max-width: 180px;
+  max-width: 320px;
   object-fit: contain;
-  filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.2));
+  filter: drop-shadow(2px 3px 0 rgba(0,0,0,0.2));
 }
 
 .app-header h1 {
   font-family: var(--font-display);
-  font-size: 2.8rem;
-  font-weight: 700;
-  color: var(--outline);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: white;
   margin: 0;
-  letter-spacing: -0.5px;
-  text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.5px;
+  text-shadow: 1px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
 .subtitle {
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  font-weight: 500;
-  color: var(--outline);
-  opacity: 0.85;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
   position: relative;
   z-index: 1;
 }
@@ -187,18 +193,19 @@ body {
   font-family: var(--font-display);
   background: var(--bg-card);
   border: var(--border-width) solid var(--border);
-  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-  padding: 0.7rem 1.5rem;
-  font-size: 1.05rem;
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 1.5rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--text-secondary);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
   position: relative;
 }
 
 .tab-button:hover {
   background-color: var(--simpsons-yellow-light);
+  border-color: var(--simpsons-yellow);
 }
 
 .tab-button:focus-visible {
@@ -210,8 +217,8 @@ body {
 .tab-button.active,
 .tab-button[aria-selected="true"] {
   background: var(--simpsons-yellow);
-  color: var(--outline);
-  border-bottom-color: var(--simpsons-yellow);
+  color: #1a1a2e;
+  border-color: var(--simpsons-yellow-dark);
   font-weight: 700;
 }
 
@@ -335,25 +342,25 @@ body {
 .submit-button {
   font-family: var(--font-display);
   background: var(--simpsons-yellow);
-  color: var(--outline);
-  border: var(--border-width) solid var(--outline);
+  color: #1a1a2e;
+  border: 2px solid var(--simpsons-yellow-dark);
   border-radius: var(--radius-sm);
   padding: 0.85rem 2rem;
   font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
   box-shadow: var(--shadow);
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
 }
 
 .submit-button:hover:not(:disabled) {
-  transform: translate(-1px, -1px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-hover);
+  background: var(--simpsons-yellow-dark);
 }
 
 .submit-button:active:not(:disabled) {
-  transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+  transform: translateY(0);
 }
 
 .submit-button:focus-visible {
@@ -488,25 +495,25 @@ body {
   font-family: var(--font-display);
   background: var(--bart-red);
   color: white;
-  border: var(--border-width) solid var(--outline);
+  border: 2px solid #C43A2D;
   border-radius: var(--radius-sm);
   padding: 0.85rem 2rem;
   font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
   box-shadow: var(--shadow);
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
   letter-spacing: 0.3px;
 }
 
 .surprise-button:hover:not(:disabled) {
-  transform: translate(-1px, -1px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-hover);
+  background: #D4443A;
 }
 
 .surprise-button:active:not(:disabled) {
-  transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+  transform: translateY(0);
 }
 
 .surprise-button:focus-visible {
@@ -551,7 +558,7 @@ body {
 }
 
 .episode-card:hover {
-  transform: translate(-2px, -2px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-hover);
 }
 
@@ -619,18 +626,19 @@ body {
   color: white;
   text-decoration: none;
   text-align: center;
-  border: 2px solid var(--outline);
-  border-radius: 6px;
+  border: none;
+  border-radius: var(--radius-sm);
   font-weight: 600;
   font-size: 0.9rem;
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
   display: inline-block;
-  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow);
 }
 
 .action-button:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-hover);
+  background: var(--accent-dark);
 }
 
 .action-button:focus-visible {
@@ -650,124 +658,132 @@ body {
   box-shadow: none;
 }
 
-/* ============ Plex Settings ============ */
-.plex-settings {
+/* ============ Plex Sign-In ============ */
+.plex-settings-card {
   margin-top: 1.5rem;
   border: var(--border-width) solid var(--border);
   border-radius: var(--radius);
-  padding: 1rem 1.25rem;
+  padding: 1.25rem 1.5rem;
   background-color: var(--bg-card);
   box-shadow: var(--shadow);
 }
 
-.plex-settings summary {
-  cursor: pointer;
-  font-family: var(--font-display);
-  font-weight: 600;
-  padding: 0.4rem;
-  list-style: none;
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-}
-
-.plex-settings summary::-webkit-details-marker {
-  display: none;
-}
-
-.plex-settings summary::before {
-  content: '\25B6 ';
-  display: inline-block;
-  margin-right: 0.4rem;
-  font-size: 0.7em;
-  transition: transform 0.2s;
-}
-
-.plex-settings[open] summary::before {
-  transform: rotate(90deg);
-}
-
-.plex-settings summary:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-.plex-settings-content {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.plex-settings-content label {
-  display: block;
-  margin-bottom: 0.4rem;
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.plex-url-input {
-  font-family: var(--font-body);
-  width: 100%;
-  padding: 0.65rem 0.75rem;
-  font-size: 0.95rem;
-  border: var(--border-width) solid var(--border);
-  border-radius: 6px;
-  background-color: var(--bg-card);
-  color: var(--text-primary);
-  margin-top: 0.4rem;
-}
-
-.plex-token-label {
-  margin-top: 1.25rem;
-  display: block;
-}
-
-.plex-token-input-group {
+.plex-sign-in,
+.plex-signed-in {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+
+.plex-branding {
+  display: flex;
+  align-items: center;
   gap: 0.5rem;
-  margin-top: 0.4rem;
 }
 
-.plex-token-input-group .plex-url-input {
-  flex: 1;
-  margin-top: 0;
+.plex-icon {
+  width: 24px;
+  height: 24px;
 }
 
-.plex-token-help-button {
+.plex-label {
   font-family: var(--font-display);
-  padding: 0.65rem 1rem;
-  background: var(--accent);
-  color: white;
-  border: 2px solid var(--outline);
-  border-radius: 6px;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.plex-hint {
   font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.plex-sign-in-button {
+  font-family: var(--font-display);
+  background: #E5A00D;
+  color: #1a1a2e;
+  border: 2px solid #CC8E00;
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 700;
   cursor: pointer;
-  white-space: nowrap;
-  transition: transform 0.1s, box-shadow 0.1s;
-  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow);
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
 }
 
-.plex-token-help-button:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+.plex-sign-in-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  background: #D4940C;
 }
 
-.plex-token-help-button:focus-visible {
-  outline: 3px solid var(--simpsons-yellow);
-  outline-offset: 2px;
+.plex-sign-in-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
 }
 
-.plex-url-input:focus-visible {
+.plex-sign-in-button:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 2px;
 }
 
-.help-text {
-  margin-top: 0.4rem;
+.plex-error {
+  color: var(--bart-red);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.plex-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.plex-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+}
+
+.plex-username {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.plex-sign-out-button {
+  font-family: var(--font-body);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.4rem 1rem;
   font-size: 0.85rem;
   color: var(--text-secondary);
-  font-style: italic;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.plex-sign-out-button:hover {
+  border-color: var(--bart-red);
+  color: var(--bart-red);
+}
+
+.plex-sign-out-button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.action-button-plex {
+  background: #E5A00D;
+  color: #1a1a2e;
+}
+
+.action-button-plex:hover {
+  background: #D4940C;
 }
 
 /* ============ States ============ */
@@ -816,11 +832,11 @@ body {
 /* ============ Footer ============ */
 .app-footer {
   text-align: center;
-  padding: 1.25rem;
-  border-top: var(--border-width) solid var(--border);
+  padding: 1rem;
+  border-top: 1px solid var(--border);
   margin-top: auto;
   background-color: var(--bg-card);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
 }
 

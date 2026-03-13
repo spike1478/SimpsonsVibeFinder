@@ -1,59 +1,28 @@
 import React from 'react';
 import type { ScoredEpisode } from '../types';
 import { getTMDBEpisodeUrl } from '../config';
+import { buildPlexLink } from '../api/plex';
+import type { PlexEpisodeMap } from '../api/plex';
 
 interface EpisodeCardProps {
   episode: ScoredEpisode;
   rank: number;
-  plexBaseUrl?: string;
-  plexAuthToken?: string;
+  plexEpisodeMap?: PlexEpisodeMap | null;
+  plexMachineId?: string | null;
 }
 
 export const EpisodeCard: React.FC<EpisodeCardProps> = ({
   episode,
   rank,
-  plexBaseUrl,
-  plexAuthToken,
+  plexEpisodeMap,
+  plexMachineId,
 }) => {
   const { name, season_number, episode_number, vote_average } = episode.episode;
 
   const tmdbUrl = getTMDBEpisodeUrl(season_number, episode_number);
-
-  const getPlexUrl = (): string | null => {
-    if (!plexBaseUrl) {
-      return null;
-    }
-
-    // Clean the base URL
-    const baseUrl = plexBaseUrl.trim().replace(/\/$/, '');
-    
-    // Format search query - use episode title, Plex is good at matching
-    const searchQuery = encodeURIComponent(name);
-    
-    // Check if it's a Plex.tv URL or local server
-    if (baseUrl.includes('app.plex.tv') || baseUrl.includes('plex.tv')) {
-      // Plex.tv web app format - uses browser session, no token needed
-      if (baseUrl.includes('/desktop')) {
-        return `${baseUrl}#!/search?query=${searchQuery}`;
-      } else {
-        return `${baseUrl}/desktop/#!/search?query=${searchQuery}`;
-      }
-    } else {
-      // Local server format (e.g., http://192.168.1.100:32400)
-      // Modern Plex web interface
-      if (baseUrl.includes('/web')) {
-        // Token goes in the hash fragment for web UI
-        const hashAuth = plexAuthToken ? `?X-Plex-Token=${encodeURIComponent(plexAuthToken)}` : '';
-        return `${baseUrl}${hashAuth}#!/search?query=${searchQuery}`;
-      } else {
-        // For direct server access, token in URL params before hash
-        const tokenParam = plexAuthToken ? `?X-Plex-Token=${encodeURIComponent(plexAuthToken)}` : '';
-        return `${baseUrl}/web/index.html${tokenParam}#!/search?query=${searchQuery}`;
-      }
-    }
-  };
-
-  const plexUrl = getPlexUrl();
+  const plexUrl = (plexEpisodeMap || plexMachineId)
+    ? buildPlexLink(season_number, episode_number, name, plexEpisodeMap ?? null, plexMachineId ?? null)
+    : null;
 
   const rankLabels: Record<number, string> = {
     1: '1st Pick',
@@ -75,7 +44,7 @@ export const EpisodeCard: React.FC<EpisodeCardProps> = ({
         Season {season_number}, Episode {episode_number}
         {vote_average && (
           <span className="episode-rating" aria-label={`Rating: ${vote_average} out of 10`}>
-            {' '}• {vote_average.toFixed(1)}/10
+            {' '}&bull; {vote_average.toFixed(1)}/10
           </span>
         )}
       </p>
@@ -88,22 +57,18 @@ export const EpisodeCard: React.FC<EpisodeCardProps> = ({
           className="action-button"
           aria-label={`Open ${name} on TMDB (opens in new tab)`}
         >
-          Open on TMDB
+          TMDB
         </a>
-        {plexUrl ? (
+        {plexUrl && (
           <a
             href={plexUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="action-button"
-            aria-label={`Search for ${name} in Plex (opens in new tab)`}
+            className="action-button action-button-plex"
+            aria-label={`Open ${name} in Plex (opens in new tab)`}
           >
-            Search in Plex
+            Open in Plex
           </a>
-        ) : (
-          <span className="action-button disabled" aria-label="Plex URL not configured">
-            Plex (not configured)
-          </span>
         )}
       </div>
     </article>
