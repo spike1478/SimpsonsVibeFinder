@@ -6,7 +6,7 @@ interface TabsProps {
 }
 
 export const Tabs: React.FC<TabsProps> = ({ activeTab, onTabChange }) => {
-  const [focusedIndex, setFocusedIndex] = useState(0);
+  const [, setFocusedIndex] = useState(0);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const tabs = [

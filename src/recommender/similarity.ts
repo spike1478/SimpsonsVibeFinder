@@ -1,4 +1,4 @@
-import type { Episode, EpisodeFeatures, ScoredEpisode } from '../types';
+import type { Episode, ScoredEpisode } from '../types';
 import { extractFeatures } from './featureExtract';
 import type { Filters } from '../types';
 import { shouldIncludeEpisode } from './filters';
@@ -81,9 +81,9 @@ function cosineSimilarity(vec1: TFIDFVector, vec2: TFIDFVector): number {
 // Filter logic is now in shared filters.ts module
 
 function generateWhyText(
-  selectedEpisode: Episode,
-  similarEpisode: Episode,
-  similarityScore: number,
+  _selectedEpisode: Episode,
+  _similarEpisode: Episode,
+  _similarityScore: number,
   sharedKeywords: string[],
   filters: Filters
 ): string {

@@ -13,7 +13,7 @@ export const PlexSettings: React.FC<PlexSettingsProps> = ({
   onPlexUrlChange,
   onPlexAuthTokenChange,
 }) => {
-  const [showTokenHelp, setShowTokenHelp] = useState(false);
+  const [_showTokenHelp, _setShowTokenHelp] = useState(false);
 
   const handleGetTokenClick = () => {
     // Open Plex token instructions

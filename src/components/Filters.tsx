@@ -1,13 +1,12 @@
-import React from 'react';
-import type { Filters } from '../types';
+import type { Filters as FiltersType } from '../types';
 
 interface FiltersProps {
-  filters: Filters;
-  onFiltersChange: (filters: Filters) => void;
+  filters: FiltersType;
+  onFiltersChange: (filters: FiltersType) => void;
 }
 
 export const Filters: React.FC<FiltersProps> = ({ filters, onFiltersChange }) => {
-  const handleToggle = (key: keyof Filters) => {
+  const handleToggle = (key: keyof FiltersType) => {
     onFiltersChange({
       ...filters,
       [key]: !filters[key],

@@ -85,7 +85,7 @@ function generateWhyText(
   episode: Episode,
   features: EpisodeFeatures,
   userTones: number[],
-  quizScore: number,
+  _quizScore: number,
   filters: Filters,
   answers: QuizAnswers
 ): string {

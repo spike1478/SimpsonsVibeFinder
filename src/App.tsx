@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Tabs } from './components/Tabs';
 import { Filters } from './components/Filters';
 import { Quiz } from './components/Quiz';
